@@ -40,17 +40,41 @@ namespace User.Mvc
                 options.DefaultChallengeScheme = "oidc";
             })
             .AddCookie("Cookies")   // 添加处理Cookies的Handler
+
+            // 只能认证用户，不能访问UserApi
+            //.AddOpenIdConnect("oidc", options =>    // 添加处理oidc的Handler
+            // {
+            //     // 当oidc handler完成认证过程之后，通过Cookies Handler发行Cookies
+            //     options.SignInScheme = "Cookies";
+
+            //     options.Authority = "http://localhost:5000";
+            //     options.RequireHttpsMetadata = false;
+
+            //     options.ClientId = "mvc_client";
+            //     options.SaveTokens = true;
+            // })
+
             .AddOpenIdConnect("oidc", options =>    // 添加处理oidc的Handler
-             {
-                 // 当oidc handler完成认证过程之后，通过Cookies Handler发行Cookies
-                 options.SignInScheme = "Cookies";
+            {
+                // 当oidc handler完成认证过程之后，通过Cookies Handler发行Cookies
+                options.SignInScheme = "Cookies";
 
-                 options.Authority = "http://localhost:5000";
-                 options.RequireHttpsMetadata = false;
+                options.Authority = "http://localhost:5000";
+                options.RequireHttpsMetadata = false;
 
-                 options.ClientId = "mvc_client";
-                 options.SaveTokens = true;
-             });
+                options.ClientId = "mvc_client2";
+                // 请求AccessToken时需要使用密钥
+                options.ClientSecret = "mvc_secret2";
+                // 
+                options.ResponseType = "code id_token";
+
+                options.SaveTokens = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
+
+                options.Scope.Add("user-api");
+                options.Scope.Add("offline_access");
+            })
+             ;
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

@@ -52,6 +52,7 @@ namespace Ids4.Mvc.Center
                 {
                     ClientId = "mvc_client",
                     ClientName = "UserMvcClient",
+                    // 简化模式，通过浏览器传输身份token(IdentityToken)，但并没有AccessToken
                     AllowedGrantTypes = GrantTypes.Implicit,
 
                     // MVC客户端登录成功之后的跳转地址
@@ -65,6 +66,36 @@ namespace Ids4.Mvc.Center
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email
                     }
+                },
+
+                new Client
+                {
+                    ClientId = "mvc_client2",
+                    ClientName = "UserMvcClient2",
+
+                    // 混合模式：先通过浏览器传输IdentityToken，再通过后台通道请求AccessToken
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    // 客户端后台通道请求AccessToken时需要用到此密钥参数
+                    ClientSecrets =
+                    {
+                        new Secret("mvc_secret2".Sha256())
+                    },
+
+                    // MVC客户端登录成功之后的跳转地址
+                    RedirectUris = { "http://localhost:5003/signin-oidc" },
+                    // MVC客户端登出之后的跳转地址
+                    PostLogoutRedirectUris = { "http://localhost:5003/signout-callback-oidc" },
+                    RequireConsent = false,
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "user-api"
+                    },
+
+                    // 允许客户端请求RefreshToken
+                    AllowOfflineAccess = true
                 }
             };
         }

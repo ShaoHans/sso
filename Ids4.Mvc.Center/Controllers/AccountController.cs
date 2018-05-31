@@ -43,7 +43,7 @@ namespace Ids4.Mvc.Center.Controllers
                         ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromDays(1))
                     };
 
-                    await AuthenticationManagerExtensions.SignInAsync(HttpContext, user.SubjectId, user.Username, authProps);
+                    await AuthenticationManagerExtensions.SignInAsync(HttpContext, user.SubjectId, user.Username, authProps, user.Claims.ToArray());
 
                     if (Url.IsLocalUrl(loginViewModel.ReturnUrl))
                     {

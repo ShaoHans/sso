@@ -1,0 +1,6 @@
+﻿Add-Migration InitialIdentityServerPersistedGrantDbMigration -Context PersistedGrantDbContext -OutputDir Data/Migrations/IdentityServer/PersistedGrantDb
+Update-Database -Context PersistedGrantDbContext
+======================
+
+Add-Migration InitialIdentityServerConfigurationDbMigration -Context ConfigurationDbContext -OutputDir Data/Migrations/IdentityServer/ConfigurationDb
+Update-Database -Context ConfigurationDbContext

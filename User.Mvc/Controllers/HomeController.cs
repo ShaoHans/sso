@@ -49,12 +49,18 @@ namespace User.Mvc.Controllers
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
 
-            var client = new HttpClient();
+            HttpClient client = new HttpClient();
             client.SetBearerToken(accessToken);
             var content = await client.GetStringAsync("http://localhost:5002/api/user/claims");
 
-            ViewBag.Json = JArray.Parse(content).ToString();
-            return View("json");
+            return Content(JArray.Parse(content).ToString());
+        }
+
+        [HttpGet]
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.SignOutAsync("oidc");
         }
     }
 }

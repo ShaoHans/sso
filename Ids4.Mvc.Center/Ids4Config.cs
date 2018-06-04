@@ -20,7 +20,8 @@ namespace Ids4.Mvc.Center
         {
             return new List<ApiResource>
             {
-                new ApiResource("user-api","用户API接口"),
+                //请求user-api资源时应包含相关用户身份单元信息列表
+                new ApiResource("user-api","用户API接口",new List<string>(){ JwtClaimTypes.Email,JwtClaimTypes.Address}),
                 new ApiResource("project-api","项目API接口"),
             };
         }
@@ -110,7 +111,8 @@ namespace Ids4.Mvc.Center
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email()
+                new IdentityResources.Email(),
+                new IdentityResources.Address()
             };
         }
 

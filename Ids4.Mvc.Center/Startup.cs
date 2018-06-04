@@ -32,6 +32,7 @@ namespace Ids4.Mvc.Center
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
+                .AddProfileService<CustomerProfileService>()
                 .AddInMemoryApiResources(Ids4Config.GetApiResources())
                 .AddInMemoryClients(Ids4Config.GetClients())
                 .AddInMemoryIdentityResources(Ids4Config.GetIdentityResources())

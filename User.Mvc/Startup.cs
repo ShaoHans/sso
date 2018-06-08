@@ -69,6 +69,8 @@ namespace User.Mvc
                 options.ResponseType = "code id_token";
 
                 options.SaveTokens = true;
+
+                //在拿到id_token之后自动向userinfo endpoint请求用户信息并放到asp.net core的User Identity下
                 options.GetClaimsFromUserInfoEndpoint = true;
 
                 options.Scope.Add("user-api");
